@@ -28,56 +28,96 @@
 						<!-- Post -->
 							<section class="post">
 								<header class="major">
-									<span class="date">April 25, 2017</span>
-									<h1>This is a<br />
-									Generic Page</h1>
-									<p>Aenean ornare velit lacus varius enim ullamcorper proin aliquam<br />
-									facilisis ante sed etiam magna interdum congue. Lorem ipsum dolor<br />
-									amet nullam sed etiam veroeros.</p>
+									<h1>Data Cleaning and<br />
+									Machine Learning in Python</h1>
+									<hr />
+									<p>This project was done in one of the modules I took in polytechnic. Together with my groupmate, we develop a GUI to predict whether a patient will develop diabetes based on his/her health condition.
+									I will be sharing about my contributions to the project. 	
+									</p>
 								</header>
-								<div class="image main"><img src="images/pic01.jpg" alt="" /></div>
-								<p>Donec eget ex magna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque venenatis dolor imperdiet dolor mattis sagittis. Praesent rutrum sem diam, vitae egestas enim auctor sit amet. Pellentesque leo mauris, consectetur id ipsum sit amet, fergiat. Pellentesque in mi eu massa lacinia malesuada et a elit. Donec urna ex, lacinia in purus ac, pretium pulvinar mauris. Nunc lorem mauris, fringilla in aliquam at, euismod in lectus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Curabitur sapien risus, commodo eget turpis at, elementum convallis enim turpis, lorem ipsum dolor sit amet nullam.</p>
-								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis dapibus rutrum facilisis. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Etiam tristique libero eu nibh porttitor fermentum. Nullam venenatis erat id vehicula viverra. Nunc ultrices eros ut ultricies condimentum. Mauris risus lacus, blandit sit amet venenatis non, bibendum vitae dolor. Nunc lorem mauris, fringilla in aliquam at, euismod in lectus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. In non lorem sit amet elit placerat maximus. Pellentesque aliquam maximus risus. Donec eget ex magna. Interdum et malesuada fames ac ante ipsum primis in faucibus. Pellentesque venenatis dolor imperdiet dolor mattis sagittis. Praesent rutrum sem diam, vitae egestas enim auctor sit amet. Pellentesque leo mauris, consectetur id ipsum.</p>
+								<p><b>View full code here.</b></p>
+								<p>This project is split into 2 sections:</p>
+								<li><a href="#DC">Data Cleaning</a></li>
+								<li><a href="#ML">Machine Learning</a></li>
+								<hr />
+								<h2 id="DC"><b>Data Cleaning</b></h2>
+								<h3>1. Importing Data</h3>
+								<p>First, I imported the necessary libraries into the dataset.</p>
+								<div class="image fit"><img src="images/DCandML_2.jpg" alt="" /></div>
+								<p>Afterwards, I imported the dataset and text file that came along with. Colmun headers of dataset are left empty,
+								but I was able to retrieve it from the text file and impute it into the dataset.
+								</p>
+								<div class="image main"><img src="images/DCandML_1.jpg" alt="" /></div>
+								<div class="image main"><img src="images/DCandML_3.jpg" alt="" /></div>
+								<div class="image main"><img src="images/DCandML_4.jpg" alt="" /></div>
+								<h3>2. Exploratory Data Analysis</h3>
+								<p>Using info and describe functions, I get a better understanding of the data. For example, all the data are in numerical format.
+								In addition, in the describe function, ensure that "Diabetes(Y/N)" column only contains 1 and 0 as it is supposedly a categorical column.
+								</p>
+								<div class="image fit"><img src="images/DCandML_5.jpg" alt="" /></div>
+								<div class="image fit"><img src="images/DCandML_6.jpg" alt="" /></div>
+								<p>Using isnull and duplicated functions. We check for null and duplicated values in the dataset.</p>
+								<div class="image main"><img src="images/DCandML_7.jpg" alt="" /></div>
+								<hr />
+								<p>Using histograms, box plots, and a correlation matrix, I gain deeper insights into the dataset. Histograms help me understand the distribution of each feature and identify columns with a high number of zeros. 
+								Box plots allow me to detect columns with numerous outliers. 
+								Finally, the correlation matrix reveals that "plasma glucose concentration" has the strongest correlation with diabetes rates.	
+								</p>
+								<div class="image fit"><img src="images/DCandML_8.jpg" alt="" /></div>
+								<div class="image fit"><img src="images/DCandML_9.jpg" alt="" /></div>
+								<div class="image fit"><img src="images/DCandML_10.jpg" alt="" /></div>
+								<h3>3. Null Value Treatment</h3>
+								<p>Initially, when we ran the isnull function, there were no null values. However, from the histograms we observe high number of zeros
+								in some dataset that aren't suppose to have zeros. Therefore, in the parameters aren't suppose to have zeros, we imput NaN.
+								</p>
+								<div class="image fit"><img src="images/DCandML_11.jpg" alt="" /></div>
+								<p>I used the simple imputer function from sklearn to impute the mean for each of the missing values. The reason being
+								most of the columns that have missing values are normally distributed. In addition, we ensure to impute float values into the columns where
+								precision is important and impute integers in columns where float do not make sense.
+								</p>
+								<div class="image fit"><img src="images/DCandML_12.jpg" alt="" /></div>
+								<h3>4. Outlier Treatment</h3>
+								<p>Before I made any changes to the dataset, I first ran the describe function and drew box plots for each of the indivudal parameters again
+								to visualize the data after the null values have been treated. From these outputs I was able to identify three parameters with outliers that do
+								not make sense. They are: "Diastolic(BP)", "Tricep Skin Fold Thickness" and "2-hour serum insulin". These are the parameters I will mainly be changing.
+								</p>
+								<div class="image fit"><img src="images/DCandML_13.jpg" alt="" /></div>
+								<p>Firstly, I create a function that will return the the upper and whisker values of each parameter.</p>
+								<div class="image fit"><img src="images/DCandML_14.jpg" alt="" /></div>
+								<p>For "Diastolic(BP)" - Remove values below the lower whisker, as values above the upper whisker are acceptable readings
+								and can be important data to decipher hidden relationships in the dataset. </p>
+								<p>For "Tricep Skin Fold Thickness" - Remove values below the lower whisker and values above the upper whisker. </p>
+								<p>For "2-hour serum insulin" - Remove values above the upper whisker, as values below the lower whisker are acceptable readings
+								and can be important data to decipher hidden relationships in the dataset. </p>
+								<div class="image fit"><img src="images/DCandML_15.jpg" alt="" /></div>
+								<h3>5. Normalization</h3>
+								<p>After cleaning the dataset, I also normalize the dataset preventing any features from dominating during the model training.
+								Ensuring all features have a consistent scale.
+								</p>
+								<div class="image fit"><img src="images/DCandML_16.jpg" alt="" /></div>
+								<p>Finally, I save the preprocessed dataset as a CSV file, making it ready for machine learning analysis by my groupmate and me.</p>
+								<div class="image fit"><img src="images/DCandML_17.jpg" alt="" /></div>
+								<hr />
+								<h2 id="ML"><b>Machine Learning</b></h2>
 							</section>
+						
 
 					</div>
 
 				<!-- Footer -->
 					<footer id="footer">
-						<section>
-							<form method="post" action="#">
-								<div class="fields">
-									<div class="field">
-										<label for="name">Name</label>
-										<input type="text" name="name" id="name" />
-									</div>
-									<div class="field">
-										<label for="email">Email</label>
-										<input type="text" name="email" id="email" />
-									</div>
-									<div class="field">
-										<label for="message">Message</label>
-										<textarea name="message" id="message" rows="3"></textarea>
-									</div>
-								</div>
-								<ul class="actions">
-									<li><input type="submit" value="Send Message" /></li>
-								</ul>
-							</form>
-						</section>
 						<section class="split contact">
 							<section class="alt">
 								<h3>Address</h3>
-								<p>1234 Somewhere Road #87257<br />
-								Nashville, TN 00000-0000</p>
+								<p>Singapore 520274</p>
 							</section>
 							<section>
 								<h3>Phone</h3>
-								<p><a href="#">(000) 000-0000</a></p>
+								<p>(+65) 94897920</a></p>
 							</section>
 							<section>
 								<h3>Email</h3>
-								<p><a href="#">info@untitled.tld</a></p>
+								<p>limguoxiang0112@gmail.com</a></p>
 							</section>
 							<section>
 								<h3>Social</h3>
